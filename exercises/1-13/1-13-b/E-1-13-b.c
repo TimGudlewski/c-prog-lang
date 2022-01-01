@@ -4,7 +4,7 @@
 #define OUT		0               /* outside a word */
 #define MAXL	20              /* max length of word measurements */
 
-/* Print a vertical histogram of the lengths of words in input */
+/* print a vertical histogram of the lengths of words in input */
 
 int main()
 {
@@ -27,27 +27,26 @@ int main()
     nwchar[8] = '(';
     nwchar[9] = ')';
     nwchar[10] = '?';
-
+    /* get characters and count word lengths */
     wstate = OUT;
     wcc = 0;
     while((c = getchar()) != EOF) {
         cstate = OUT;
+        /* check if character is a non-word character */
         for (i = 0; i < 11; ++i) {
             if (c == nwchar[i]) {
                 cstate = IN;
                 break;
             }
         }
-        if (cstate == IN) {
-            if (wstate == IN) {
-                ++lword[wcc - 1];
-                wcc = 0;
-            }
+        if (cstate == IN && wstate == IN) {
             wstate = OUT;
+            ++lword[wcc - 1];
+            wcc = 0;
         }
-        else {
-            ++wcc;
+        else if (cstate == OUT) {
             wstate = IN;
+            ++wcc;
         }
     }
     /* find most common word length */
