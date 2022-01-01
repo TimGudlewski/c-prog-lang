@@ -12,8 +12,8 @@ int main()
         ndigit[i] = 0;
 
     while ((c = getchar()) != EOF)
-        if (c >= '0' && c <= '9') /* The numeric values of these chars equal their representations */
-            ++ndigit[c - '0'];  /* Turns c into an int */
+        if (c >= '0' && c <= '9') /* This works because the chars '0' thru '9' have consecutive increasing numeric values */
+            ++ndigit[c - '0'];  /* If the char in c is represented by a digit, c - '0' evaluates to the integer it represents */
         else if (c == ' ' || c == '\n' || c == '\t')
             ++nwhite;
         else
