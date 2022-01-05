@@ -24,16 +24,12 @@ int main()
   cho[0] = 'k';
   cho[1] = 'c';
   cho[2] = 'f';
-  cho[3] = 'c';                 /* To make the same operation (cidx + 1) produce the right letter for each conversion heading */
+  cho[3] = 'c';                 /* to make the same operation (cidx + 1) produce the right letter for each conversion heading */
 
   printf("Enter c for C-F, f for F-C, or k for K-C:\n");
-  c = getchar();
-  cidx = chkcho(c);
-
-  while (cidx >= NUMCHO) {
-    c = getchar();
-    printf("\nUnrecognized entry. Please enter c for C-F, f for F-C, or k for K-C:\n"); /* how to keep this line from printing twice after the first unrecognized entry? */
-    cidx = chkcho(c);
+  while ((cidx = chkcho(c = getchar())) >= NUMCHO) {
+    if (c != '\n')              /*  to keep the line below from printing twice after the first unrecognized entry */
+      printf("Unrecognized entry. Please enter c for C-F, f for F-C, or k for K-C: ");
   }
 
   printf("%3c %6c\n", cho[cidx], cho[cidx + 1]); /* conversion heading */
