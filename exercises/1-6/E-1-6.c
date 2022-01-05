@@ -1,18 +1,20 @@
 #include <stdio.h>
+
 /* press ctrl+d to signal EOF */
+/* press ctrl+d twice if you've typed anything on the current line and haven't hit enter on it */
 /* verify that the expression getchar() != EOF is 0 or 1 */
-void main(void)
+
+int main()
 {
   int c, d;
   c = getchar();
   d = c != EOF;
-  printf("Val of exp before loop: %d\n", d);
+  printf("Value of expression before loop: %d\n", d);
 
   while (d) {
-    putchar(c);
     c = getchar();
     d = c != EOF;
   }
 
-  printf("Val of exp after loop: %d\n", d);
+  printf("\nValue of expression after loop: %d\n", d);
 }
