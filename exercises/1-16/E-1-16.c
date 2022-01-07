@@ -22,8 +22,9 @@ int main()
         }
     }
     if (top > 0)                /* there was a line */
-        printf("TOP LENGTH:\n%ld\nLONGEST LINE:\n%s\n", top, longest);  /* %s expects a string represented in the form of an array of characters
-                                   terminated by the null character ('\0') */
+        printf("TOP LENGTH:\n%ld\nLONGEST LINE:\n%s\n", top, longest);
+        /* %s expects a string represented in the form of an array of characters
+           terminated by the null character ('\0') */
     return 0;
 }
 
