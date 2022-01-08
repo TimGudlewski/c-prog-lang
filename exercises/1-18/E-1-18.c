@@ -10,19 +10,18 @@
 #define FALSE 0
 
 char nblines[MAXLINS][MAXLINE];  /* all non-blank lines */
-void getl(int nber[], char tmpl[]);
+int getl(char tmpl[]);
 void cpyl(int nbli, char tmpl[]);
 
 int main()
 {
     extern char nblines[MAXLINS][MAXLINE];
     char templine[MAXLINE];
-    int pi, nbli;               /* non-blank line increment; print increment */
+    int ll, pi, nbli;            /* line length; print increment; non-blank line increment */
     nbli = 0;
-    int nber[] = {FALSE, FALSE}; /* last line was non-blank; end of file reached */
-    while (nbli < MAXLINS && nber[1] != TRUE) {
-        getl(nber, templine);
-        if (nber[0] == TRUE) {
+    while (nbli < MAXLINS && (ll = getl(templine)) > 0) {
+        if (ll > 1) {
+            templine[ll] = '\0';
             cpyl(nbli, templine);
             ++nbli;
         }
@@ -33,8 +32,8 @@ int main()
 }
 
 
-/* getline: read a line into s, return length */
-void getl(int nber[], char templine[])
+/* read a line into s, return length */
+int getl(char templine[])
 {
     int ci, c, eofr;        /* character increment; character; end of file reached */
     int wsi, lcs;           /* whitespace increment; last character was a space */
@@ -53,21 +52,19 @@ void getl(int nber[], char templine[])
         }
         templine[ci] = c;
     }
-    if (c == EOF)
-        nber[1] = TRUE;
+
+    ci -= wsi;
     if (c == '\n') {
-        templine[ci - wsi] = c;
+        templine[ci] = c;
         ++ci;
     }
-    if (ci - wsi > 1) {
-        nber[0] = TRUE;
-        templine[ci - wsi] = '\0';
-    }
-    else
-        nber[0] = FALSE;
+    if (c == EOF)
+        ci = 0;
+    return ci;
 }
 
 
+/* copy templine into nblines at index nbli */
 void cpyl(int nbli, char templine[])
 {
     extern char nblines[MAXLINS][MAXLINE];
