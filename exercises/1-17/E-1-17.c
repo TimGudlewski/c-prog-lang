@@ -16,10 +16,9 @@ int main()
 {
     extern char llines[MAXLINS][MAXLINE];
     int lltl[] = {0, 0};        /* >80 char long lines increment; total lines increment */
-    int i, eofr;                /* increment; end of file reached */
-    eofr = FALSE;
+    int i;                      /* printf increment */
 
-    while (lltl[0] < MAXLINS && (eofr = getl(lltl)) != TRUE);
+    while (lltl[0] < MAXLINS && getl(lltl) != TRUE);
 
     printf("LINES LONGER THAN 80 CHARACTERS:\n");
     if (lltl[1] > 0) {
