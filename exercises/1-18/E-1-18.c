@@ -3,6 +3,7 @@
 /* output trailing whitespace lines and stripped lines to separate files so running "diff" on them can verify */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MAXLINE 1000             /* max length of a line */
 #define MAXLINS 1000             /* max number of input lines */
@@ -12,6 +13,8 @@
 char nblines[MAXLINS][MAXLINE];  /* all non-blank lines */
 int getl(char tmpl[]);
 void cpyl(int nbli, char tmpl[]);
+char swichar(int ll);
+
 
 int main()
 {
@@ -19,20 +22,23 @@ int main()
     char templine[MAXLINE];
     int ll, pi, nbli;            /* line length; print increment; non-blank line increment */
     nbli = 0;
-    while (nbli < MAXLINS && (ll = getl(templine)) > 0) {
-        if (ll > 1) {
-            templine[ll] = '\0';
+    while (nbli < MAXLINS && (ll = getl(templine)) != 0) {
+        if (ll > 1 || ll < 0) {
+            templine[abs(ll)] = '\0';
             cpyl(nbli, templine);
             ++nbli;
         }
+        if (ll < 0) break;
     }
+    putchar(swichar(ll));
     for (pi = 0; pi < nbli; ++pi)
-        printf("Line %d:\n%s", pi, nblines[pi]);
+        printf("%s", nblines[pi]);
+    putchar(swichar(ll));
     return 0;
 }
 
 
-/* read a line into s, return length */
+/* read a line into templine, return length */
 int getl(char templine[])
 {
     int ci, c, eofr;        /* character increment; character; end of file reached */
@@ -58,8 +64,8 @@ int getl(char templine[])
         templine[ci] = c;
         ++ci;
     }
-    if (c == EOF)
-        ci = 0;
+    if (c == EOF && ci > 0)
+        ci = -ci;
     return ci;
 }
 
@@ -71,4 +77,12 @@ void cpyl(int nbli, char templine[])
     int i;
 
     for (i = 0; (nblines[nbli][i] = templine[i]) != '\0'; ++i);
+}
+
+
+/* switch between \0 and \n based on whether line length is negative */
+char swichar(int ll)
+{
+    if (ll < 0) return '\n';
+    else return '\0';
 }
